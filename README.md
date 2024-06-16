@@ -1,0 +1,1 @@
+This is a Nutriipute Admin Panel which contains all the features to add, delete, edit products and also orders made by all the other customers
