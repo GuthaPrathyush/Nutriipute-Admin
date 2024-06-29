@@ -1,0 +1,27 @@
+.Products {
+    min-height: calc(100vh - 65px);
+    position: relative;
+    .addProducts {
+        position: sticky;
+        top: calc(100vh - 55px);
+        left: calc(100vw - (100vw - 100%) - 150px);
+        width: 136px;
+        height: 35px;
+        font-size: 18px;
+        background-color: hsl(103, 46%, 41%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        border-radius: 29px;
+    }
+    .addProduct:active {
+        background-color: hsl(103, 46%, 31%);
+    }
+    .container { 
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        min-height: calc(100vh - 65px);
+    }
+}

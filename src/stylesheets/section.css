@@ -1,0 +1,13 @@
+.Section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    hr {
+        width: 100%;
+        margin: 35px 0 45px 0;
+    }
+    .heading {
+        margin-bottom: 45px;
+    }
+}

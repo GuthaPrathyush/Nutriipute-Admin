@@ -1,0 +1,36 @@
+.Product {
+    align-self: center;
+    display: flex;
+    align-items: center;
+    width: 85%;
+    justify-content: space-between;
+    background-color: rgb(239, 239, 239);
+    border-radius: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    .productImage {
+        height: 100px;
+        img {
+            height: 100%;
+            object-fit: cover;
+            aspect-ratio: 3/2;
+            border-radius: 10px;
+        }
+    }
+    h3 {
+        flex-basis: 25%;
+        text-align: center;
+    }
+    .changeButton {
+        width: 100px;
+        height: 30px;
+        background-color: hsl(102, 41%, 54%);
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        cursor: pointer;
+    }
+    margin-bottom: 10px;
+}
