@@ -37,10 +37,10 @@ function NavBar() {
                 <p>My</p>
                 <p>Products</p>
             </Link>
-            {localStorage.getItem('auth-token')? <Link className="login" to='/login'>
+            {!localStorage.getItem('auth-token')? <Link className="login" to='/login'>
                 <i className="fa-solid fa-right-to-bracket"></i>
             </Link>: <Link className="login" onClick={() => {localStorage.removeItem('auth-token'); window.location.replace('/')}}>
-                <i className="fa-solid fa-right-to-bracket"></i>
+                <i className="fa-solid fa-power-off"></i>
             </Link>}
         </nav>
     );

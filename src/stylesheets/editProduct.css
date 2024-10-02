@@ -1,4 +1,4 @@
-.addProduct {
+.editProduct {
     min-height: calc(100vh - 65px);
     display: flex;
     align-items: center;
@@ -21,7 +21,7 @@
                 align-items: center;
                 justify-content: space-between;
                 .formInput {
-                    flex-basis: 48%;
+                    width: 48%;
                 }
                 .radioGroup {
                     flex-basis: 50%;

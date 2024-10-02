@@ -1,0 +1,96 @@
+.Login {
+    .container {
+        min-height: calc(100vh - 69px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .loginForm {
+            width: 350px;
+            background-color: #ededed;
+            border-radius: 12px;
+            padding: 0px 20px 20px 20px;
+            display: flex;
+            flex-direction: column;
+            .Logo {
+                width: 35%;
+                align-self: center;
+                margin-right: 0;
+                img {
+                    width: 100%;
+                }
+            }
+            input {
+                height: 35px;
+                font-size: 18px;
+                padding-left: 3px;
+                outline: none;
+                border: 1px groove gray;
+                border-radius: 2px;
+            }
+            button {
+                width: 70%;
+                align-self: center;
+                height: 30px;
+                font-size: 0.9rem;
+                background-color: hsl(102, 41%, 54%);
+                color: white;
+                border: none;
+                cursor: pointer;
+            }
+            button:active {
+                background-color: hsl(102, 41%, 44%);
+            }
+            button:disabled {
+                background-color: hsl(102, 41%, 54%);
+                color: white;
+                border: none;
+            }
+            #email {
+                margin-bottom: 25px;
+            }
+            .passwordDiv {
+                border: 1px groove gray;
+                border-radius: 2px;
+                display: flex;
+                .eyeBtn {
+                    width: 35px;
+                    height: 35px;
+                    background-color: white;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    cursor: pointer;
+                    .fa-eye-slash {
+                        padding: 5px;
+                        border-radius: 20px;
+                        display: none;
+                        transition: background-color 0.3s ease;
+                    }
+                    .fa-eye {
+                        padding: 5px;
+                        border-radius: 20px;
+                        transition: background-color 0.3s ease;
+                    }
+                }
+                .eyeBtn:hover {
+                    .fa-eye-slash, .fa-eye {
+                        background-color: rgba(201, 201, 201, 0.5);
+                    }
+                }
+                input {
+                    width: calc(100% - 35px);
+                    border: none;
+                }
+                margin-bottom: 15px;
+            }
+            > p {
+                margin-top: 5px;
+                align-self: center;
+                a {
+                    color: rgb(0, 0, 255);
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+}

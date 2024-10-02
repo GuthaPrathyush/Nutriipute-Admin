@@ -11,6 +11,7 @@ function AddProduct() {
     const {section, loaded, products, setProducts, setSection} = useContext(AdminContext);
     const [selectedSection, setSelectedSection] = useState("New Section");
     const navigate = useNavigate();
+    const productOfferInput = useRef();
     useEffect(() => {
         setSelectedSection(loaded?(section.length>0? section[0]: "New Section"): "New Section")
     }, [loaded])
@@ -18,6 +19,7 @@ function AddProduct() {
     const [chosenImage, setChosenImage] = useState(null);
     const [textAreaValue, setTextAreaValue] = useState("");
     const [product, setProduct] = useState({
+        product_id: "",
         Name: "", // done
         Price: "", // done
         Offer: false, // done
@@ -40,8 +42,8 @@ function AddProduct() {
         }
     }
     const handleMacroChange = (e) => {
-        const Macro = {...product.Macro, [e.target.getAttribute('name')]: String(e.target.value)}
-        setProduct({...product, ['Macro']: Macro})
+        const Macro = {...product.Macro, [e.target.getAttribute('name')]: String(e.target.value)};
+        setProduct({...product, ['Macro']: Macro});
     }
     function handleInputChange(e) {
         setProduct({...product, [e.target.getAttribute('name')]: String(e.target.value)});
@@ -49,14 +51,9 @@ function AddProduct() {
     async function validateForm() {
         product.Description = textAreaValue.trim().replace(/\s+/g, ' ');
         product.Name = product.Name.trim();
-        if(product.Name.trim() === "" || product.Price === "" || product.Description === "") {
-            toast.error("Please fill empty fields");
-        }
-        else if(offerPrice && product.Offer === "") {
-            toast.error("Please fill the Offer price or disable the Offer");
-        }
-        else if(selectedSection == "New Section" && product.Section.trim() == "") {
+        if(selectedSection == "New Section" && product.Section.trim() == "") {
             toast.error("Please fill the Product Section or choose an existing one");
+            return ;
         }
         else if(selectedSection == "New Section") {
             product.Domain = product.Section.trim().replace(/ /g, '_') + '/' + product.Name.replace(/ /g, '_');
@@ -65,12 +62,19 @@ function AddProduct() {
             product.Section = selectedSection;
             product.Domain = product.Section.trim().replace(/ /g, '_') + '/' + product.Name.replace(/ /g, '_');
         }
+        if(product.Name.trim() === "" || product.Price === "" || product.Description === "") {
+            toast.error("Please fill empty fields");
+        }
+        else if(offerPrice && product.Offer === "") {
+            toast.error("Please fill the Offer price or disable the Offer");
+        }
+        else if(offerPrice && (Number(product.Offer) >= Number(product.Price) || Number(product.Offer) < 0)) {
+            toast.error("Please make sure that the offered price is less than the original price");
+        }
         else if(!product.Macro.Proteins || !product.Macro.Energy || !product.Macro.Fats || !product.Macro.Carbs || product.Macro.Proteins === "" || product.Macro.Fats === "" || product.Macro.Carbs === "" || product.Macro.Energy === "") {
             toast.error("Please fill Macros");
         }
-
-
-        if(!chosenImage) {
+        else if(!chosenImage) {
             toast.error("Please upload an image");
         }
         else {
@@ -79,7 +83,8 @@ function AddProduct() {
             let uploaded = null;
             const imageUpload = axios.post('http://localhost:3000/uploadImg', imageForm, {
                 headers: {
-                    Accept: 'application/form-data'
+                    Accept: 'application/form-data',
+                    'auth-token': localStorage.getItem('auth-token')
                 }
             });
             await toast.promise(
@@ -101,7 +106,8 @@ function AddProduct() {
                 const productUpload = axios.post('http://localhost:3000/uploadProduct', JSON.stringify(product), {
                     headers: {
                         Accept: 'application/form-data',
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'auth-token': localStorage.getItem('auth-token')
                     }
                 });
                 toast.promise(
@@ -109,6 +115,7 @@ function AddProduct() {
                     {
                         loading: "Adding Product...",
                         success: response => {
+                            product.product_id = response.data.product_id;
                             setProducts(prevProductsArray => {
                                 // Find the subarray that matches the product's section
                                 let sectionFound = false;
@@ -146,6 +153,9 @@ function AddProduct() {
             </div>
         );
     }
+    if(!localStorage.getItem('auth-token')) {
+        window.location.replace('/login');
+    }
     return (
         <div className="addProduct">
             <div className="container">
@@ -162,9 +172,9 @@ function AddProduct() {
                         <div className='formInput'>
                             <div className="offerPriceContainer">
                                 <label htmlFor="offerPriceCheck">Offer Price</label>
-                                <input type="checkbox" id="offerPriceCheck" checked={offerPrice} onChange={(e) => {setOfferPrice(e.target.checked); e.target.checked? product.Offer = "": product.Offer = false}}/>
+                                <input type="checkbox" id="offerPriceCheck" checked={offerPrice} onChange={(e) => {setOfferPrice(e.target.checked); e.target.checked? product.Offer = productOfferInput.current.value: product.Offer = false}}/>
                             </div>
-                            <input placeholder='Enter a price in ₹' type="number" id="Offer" name="Offer" disabled={!offerPrice} onChange={handleInputChange}/>
+                            <input ref={productOfferInput} placeholder='Enter a price in ₹' type="number" id="Offer" name="Offer" disabled={!offerPrice} onChange={handleInputChange}/>
                         </div>
                     </div>
                     <div className='formInput'>
@@ -212,7 +222,7 @@ function AddProduct() {
                         </div>
                     </div>
                     <div className='formInput'>
-                        <label htmlFor="protiens">Macro Information</label>
+                        <label htmlFor="energy">Macro Information</label>
                         <div className='macroInput'>
                             <div className="formInput">
                                 <label htmlFor="energy">Energy</label>
