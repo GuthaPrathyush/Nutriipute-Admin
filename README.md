@@ -1,5 +1,5 @@
 # Nutriipute-Admin panel
-
+[click here to checkout the webpage](https://nutriipute.vercel.app)
 ## Description
 
 <p>This is Nutriipute Admin Panel which contains all the features to add, delete, edit products and also orders made by all the other customers</p>
